@@ -137,7 +137,7 @@ const App = () => {
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#ff4d00] rounded-md flex items-center justify-center font-bold text-black">nd.</div>
-            <span className="font-semibold text-white tracking-tight hidden sm:inline">factura</span>
+            <span className="font-semibold text-white tracking-tight hidden sm:inline">FACTURACION | @necesitodisenos</span>
           </div>
           
           <div className="flex items-center gap-3">
@@ -513,6 +513,18 @@ const App = () => {
                  </p>
               </div>
             </div>
+            {/* Toast */}
+        {toast && (
+          <div className="fixed bottom-4 left-1/2 -translate-x-1/2 px-3 py-2 rounded-lg text-black" style={{ background: "var(--brand)", boxShadow: "0 8px 24px rgba(246,77,8,.4)" }}>{toast}</div>
+        )}
+
+        <footer className="mt-12 text-center text-xs" style={{ color: "var(--muted)" }}>
+          © 2025 {BRAND.name} — Calculadora profesional de tarifas.
+        </footer>
+      </div>
+    </div>
+  );
+}
 
             {/* Print specific styles */}
             <style>{`
