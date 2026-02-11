@@ -107,8 +107,15 @@ const App = () => {
   };
 
   const handlePrint = () => {
+  // Cambia al tab de vista previa
+  setActiveTab('preview');
+
+  // Espera un pequeño tiempo para que se renderice el contenido
+  setTimeout(() => {
     window.print();
-  };
+  }, 300); // 300ms suele ser suficiente
+};
+
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-neutral-200 font-sans selection:bg-[#ff4d00] selection:text-white">
