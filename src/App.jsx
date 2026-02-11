@@ -22,6 +22,34 @@ const formatCurrency = (amount, currency = 'USD') => {
   }).format(amount);
 };
 
+// --- UI COMPONENTS (MOVED OUTSIDE APP TO PREVENT RE-RENDER FOCUS LOSS) ---
+
+const InputGroup = ({ label, icon: Icon, children, className = "" }) => (
+  <div className={`flex flex-col gap-2 ${className}`}>
+    {label && (
+      <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider flex items-center gap-2">
+        {Icon && <Icon size={12} />}
+        {label}
+      </label>
+    )}
+    {children}
+  </div>
+);
+
+const StyledInput = (props) => (
+  <input 
+    {...props}
+    className={`bg-neutral-900 border border-neutral-800 text-white rounded-lg p-3 text-sm focus:outline-none focus:border-[#ff4d00] focus:ring-1 focus:ring-[#ff4d00] transition-all placeholder-neutral-600 ${props.className || ''}`} 
+  />
+);
+
+const StyledTextArea = (props) => (
+  <textarea 
+    {...props}
+    className={`bg-neutral-900 border border-neutral-800 text-white rounded-lg p-3 text-sm focus:outline-none focus:border-[#ff4d00] focus:ring-1 focus:ring-[#ff4d00] transition-all placeholder-neutral-600 resize-none ${props.className || ''}`} 
+  />
+);
+
 const App = () => {
   // --- STATE MANAGEMENT ---
   const [invoiceData, setInvoiceData] = useState({
@@ -81,34 +109,6 @@ const App = () => {
   const handlePrint = () => {
     window.print();
   };
-
-  // --- UI COMPONENTS ---
-
-  const InputGroup = ({ label, icon: Icon, children, className = "" }) => (
-    <div className={`flex flex-col gap-2 ${className}`}>
-      {label && (
-        <label className="text-xs font-medium text-neutral-400 uppercase tracking-wider flex items-center gap-2">
-          {Icon && <Icon size={12} />}
-          {label}
-        </label>
-      )}
-      {children}
-    </div>
-  );
-
-  const StyledInput = (props) => (
-    <input 
-      {...props}
-      className={`bg-neutral-900 border border-neutral-800 text-white rounded-lg p-3 text-sm focus:outline-none focus:border-[#ff4d00] focus:ring-1 focus:ring-[#ff4d00] transition-all placeholder-neutral-600 ${props.className}`} 
-    />
-  );
-
-  const StyledTextArea = (props) => (
-    <textarea 
-      {...props}
-      className={`bg-neutral-900 border border-neutral-800 text-white rounded-lg p-3 text-sm focus:outline-none focus:border-[#ff4d00] focus:ring-1 focus:ring-[#ff4d00] transition-all placeholder-neutral-600 resize-none ${props.className}`} 
-    />
-  );
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-neutral-200 font-sans selection:bg-[#ff4d00] selection:text-white">
