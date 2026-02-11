@@ -10,7 +10,8 @@ import {
   Calendar,
   CreditCard,
   CheckCircle2,
-  FileText
+  FileText,
+  Image as ImageIcon // Importamos el icono de imagen
 } from 'lucide-react';
 
 // Utility for formatting currency
@@ -70,6 +71,9 @@ const App = () => {
     taxId: '' // RFC/NIF
   });
 
+  // Nuevo estado para el logo
+  const [logo, setLogo] = useState(null);
+
   const [client, setClient] = useState({
     name: '',
     email: '',
@@ -106,21 +110,30 @@ const App = () => {
     }
   };
 
+  // Manejador para subir logo
+  const handleLogoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setLogo(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeLogo = () => {
+    setLogo(null);
+  };
+
   const handlePrint = () => {
-  // Cambia al tab de vista previa
-  setActiveTab('preview');
-
-  // Espera un pequeño tiempo para que se renderice el contenido
-  setTimeout(() => {
     window.print();
-  }, 300); // 300ms suele ser suficiente
-};
-
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-neutral-200 font-sans selection:bg-[#ff4d00] selection:text-white">
       {/* --- HEADER --- */}
-      <header className="border-b border-neutral-800 bg-[#0a0a0a]/90 backdrop-blur sticky top-0 z-50">
+      <header className="border-b border-neutral-800 bg-[#0a0a0a]/90 backdrop-blur sticky top-0 z-50 print:hidden">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-[#ff4d00] rounded-md flex items-center justify-center font-bold text-black">nd.</div>
@@ -158,7 +171,7 @@ const App = () => {
       <main className="max-w-7xl mx-auto p-4 lg:p-8 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:h-[calc(100vh-4rem)]">
         
         {/* --- LEFT COLUMN: EDITOR --- */}
-        <div className={`flex-col gap-8 overflow-y-auto pr-2 custom-scrollbar ${activeTab === 'edit' ? 'flex' : 'hidden lg:flex'}`}>
+        <div className={`flex-col gap-8 overflow-y-auto pr-2 custom-scrollbar print:hidden ${activeTab === 'edit' ? 'flex' : 'hidden lg:flex'}`}>
           
           {/* Section: Emisor (Diseñador) */}
           <section className="bg-neutral-900/50 border border-neutral-800 rounded-xl p-6">
@@ -167,6 +180,45 @@ const App = () => {
               Tu Información (Emisor)
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              
+              {/* Logo Upload Section */}
+              <div className="md:col-span-2 mb-2">
+                 <InputGroup label="Logotipo">
+                  <div className="flex items-center gap-3 bg-neutral-900 border border-neutral-800 p-2 rounded-lg">
+                    {logo ? (
+                      <div className="w-12 h-12 bg-white rounded flex items-center justify-center p-1 overflow-hidden">
+                        <img src={logo} alt="Logo preview" className="w-full h-full object-contain" />
+                      </div>
+                    ) : (
+                      <div className="w-12 h-12 bg-neutral-800 rounded flex items-center justify-center text-neutral-500">
+                        <ImageIcon size={20} />
+                      </div>
+                    )}
+                    
+                    <div className="flex gap-2">
+                      <label className="cursor-pointer bg-[#ff4d00]/10 hover:bg-[#ff4d00]/20 text-[#ff4d00] text-xs font-bold px-3 py-2 rounded transition-colors">
+                        {logo ? 'Cambiar Imagen' : 'Subir Imagen'}
+                        <input 
+                          type="file" 
+                          accept="image/png, image/jpeg, image/jpg" 
+                          className="hidden" 
+                          onChange={handleLogoUpload}
+                        />
+                      </label>
+                      {logo && (
+                        <button 
+                          onClick={removeLogo}
+                          className="text-neutral-500 hover:text-red-500 px-2 py-2 transition-colors"
+                          title="Eliminar logo"
+                        >
+                          <Trash2 size={16} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                 </InputGroup>
+              </div>
+
               <InputGroup label="Nombre / Estudio">
                 <StyledInput 
                   placeholder="ej. Juan Pérez o nd. studio" 
@@ -353,20 +405,30 @@ const App = () => {
         </div>
 
         {/* --- RIGHT COLUMN: PREVIEW --- */}
-        <div className={`lg:flex items-center justify-center bg-[#111] rounded-2xl p-4 lg:p-8 relative overflow-hidden ${activeTab === 'preview' ? 'flex' : 'hidden'}`}>
-          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #333 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
+        <div className={`lg:flex items-center justify-center bg-[#111] rounded-2xl p-4 lg:p-8 relative overflow-hidden ${activeTab === 'preview' ? 'flex' : 'hidden'} print:p-0 print:bg-white print:overflow-visible print:block`}>
+          <div className="absolute inset-0 opacity-20 pointer-events-none print:hidden" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, #333 1px, transparent 0)', backgroundSize: '24px 24px' }}></div>
           
           {/* THE INVOICE PAPER */}
           <div 
             id="invoice-preview"
-            className="bg-white text-black w-full max-w-lg min-h-[600px] shadow-2xl shadow-black rounded-sm p-8 sm:p-10 flex flex-col justify-between relative"
+            className="bg-white text-black w-full max-w-lg min-h-[600px] shadow-2xl shadow-black rounded-sm p-8 sm:p-10 flex flex-col justify-between relative print:shadow-none print:w-full print:max-w-none print:m-0 print:p-8 print:h-auto"
             style={{ aspectRatio: '1/1.4142' }} // A4 Ratio approx
           >
             {/* Header */}
             <div>
               <div className="flex justify-between items-start mb-8">
                 <div>
-                   <div className="w-10 h-10 bg-black text-white flex items-center justify-center font-bold text-lg mb-4">nd.</div>
+                   {/* Logo Logic */}
+                   {logo ? (
+                     <img 
+                      src={logo} 
+                      alt="Logo Empresa" 
+                      className="max-h-16 max-w-[160px] object-contain mb-4" 
+                     />
+                   ) : (
+                     <div className="w-10 h-10 bg-black text-white flex items-center justify-center font-bold text-lg mb-4">nd.</div>
+                   )}
+                   
                    <h1 className="text-3xl font-bold tracking-tight mb-1">FACTURA</h1>
                    <p className="text-sm text-gray-500 font-mono">#{invoiceData.number}</p>
                 </div>
