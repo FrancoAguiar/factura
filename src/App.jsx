@@ -358,10 +358,10 @@ const App = () => {
           
           {/* THE INVOICE PAPER */}
           <div 
-            id="invoice-preview"
-            className="bg-white text-black w-full max-w-lg min-h-[600px] shadow-2xl shadow-black rounded-sm p-8 sm:p-10 flex flex-col justify-between relative"
-            style={{ aspectRatio: '1/1.4142' }} // A4 Ratio approx
-          >
+  id="invoice-preview"
+  className="bg-white text-black w-full h-full shadow-none rounded-none p-0 flex flex-col justify-between relative print:!w-full print:!h-full"
+>
+
             {/* Header */}
             <div>
               <div className="flex justify-between items-start mb-8">
@@ -453,26 +453,41 @@ const App = () => {
             </div>
 
             {/* Print specific styles */}
-            <style>{`
-              @media print {
-                @page { margin: 0; size: auto; }
-                body * { visibility: hidden; }
-                #invoice-preview, #invoice-preview * { visibility: visible; }
-                #invoice-preview { 
-                  position: fixed; 
-                  left: 0; 
-                  top: 0; 
-                  width: 100%; 
-                  height: 100%;
-                  margin: 0; 
-                  padding: 40px; 
-                  box-shadow: none; 
-                  z-index: 9999;
-                  background: white !important;
-                  color: black !important;
-                }
-              }
-            `}</style>
+           <style>{`
+  @media print {
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    html, body {
+      padding: 0;
+      margin: 0;
+    }
+
+    header, .print\\:hidden {
+      display: none !important;
+    }
+
+    body {
+      background: white !important;
+    }
+
+    #invoice-preview {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      box-shadow: none !important;
+      background: white !important;
+      color: black !important;
+      transform: none !important;
+    }
+  }
+`}</style>
+
           </div>
         </div>
       </main>
