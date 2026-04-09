@@ -1,13 +1,14 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       colors: {
         brand: {
-          primary: '#0066FF', /* Azul Tech */
+          primary: '#0066FF',
           hover: '#0052CC',
           bg: '#0A0A0A',
           surface: '#121212',
