@@ -1,3 +1,97 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    background-color: #0A0A0A;
+    color: #E5E5E5;
+    -webkit-font-smoothing: antialiased;
+    overscroll-behavior-y: none;
+    overflow-x: hidden !important;
+}
+
+::selection { 
+    background: rgba(0, 102, 255, 0.3); 
+    color: white; 
+}
+
+/* Patrón de fondo SaaS (Grid) */
+.bg-grid-pattern {
+    background-size: 50px 50px;
+    background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+    -webkit-mask-image: radial-gradient(circle at 50% 30%, black 40%, transparent 100%);
+    pointer-events: none;
+}
+
+/* Destello azul de fondo */
+.bg-ambient-glow {
+    position: fixed; 
+    top: 10%; 
+    left: 50%;
+    width: 80vw; 
+    height: 80vw; 
+    max-width: 800px; 
+    max-height: 800px;
+    background: radial-gradient(circle, rgba(0, 102, 255, 0.06) 0%, rgba(0,0,0,0) 70%);
+    transform: translate(-50%, -50%); 
+    pointer-events: none; 
+    z-index: 0;
+}
+
+/* Scrollbars Pro */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0A0A0A; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #444; }
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Componentes UI */
+.glass-card {
+    background: rgba(22, 22, 24, 0.4);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0.75rem; 
+    transition: border-color 0.3s ease;
+}
+.glass-card:focus-within { border-color: rgba(0, 102, 255, 0.3); }
+
+.input-group { display: flex; flex-direction: column; gap: 0.35rem; }
+.input-label { 
+    font-size: 0.7rem; 
+    text-transform: uppercase; 
+    letter-spacing: 0.08em; 
+    color: #A1A1AA; 
+    font-weight: 600; 
+    display: flex; 
+    align-items: center; 
+    gap: 0.5rem;
+}
+.input-field { 
+    background-color: rgba(0,0,0,0.3); 
+    border: 1px solid #262626; 
+    color: #F4F4F5; 
+    padding: 0.65rem 0.85rem; 
+    border-radius: 0.5rem; 
+    font-size: 0.875rem; 
+    transition: all 0.2s; 
+    width: 100%; 
+}
+.input-field:focus:not(:disabled) { 
+    outline: none; 
+    border-color: #0066FF; 
+    box-shadow: 0 0 0 2px rgba(0, 102, 255, 0.2), inset 0 1px 2px rgba(0,0,0,0.5); 
+    background-color: rgba(0,0,0,0.5);
+}
+.input-field::placeholder { color: #52525B; }
+
+/* Ocultar elementos de UI al imprimir */
+@media print {
+    body, html { background: white !important; height: auto !important; overflow: auto !important; }
+    header, aside, .bg-grid-pattern, .bg-ambient-glow, .mobile-tabs, button { display: none !important; }
+    main { background: white !important; display: block !important; padding: 0 !important; margin: 0 !important; }
+    #invoice-preview { box-shadow: none !important; margin: 0 auto !important; }
+}
