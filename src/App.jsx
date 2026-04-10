@@ -102,9 +102,9 @@ const App = () => {
       <header className="border-b border-brand-border bg-brand-surface/90 backdrop-blur sticky top-0 z-50 print:hidden">
         <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-brand-primary p-1.5 rounded-lg shadow-glow animate-float">
-              <PenNib className="text-black" size={18} />
-            </div>
+<div className="bg-brand-primary p-1.5 rounded-lg shadow-glow animate-float">
+   <PenTool className="text-black" size={18} />
+</div>
             <div className="flex flex-col">
               <span className="font-display font-bold text-white text-lg leading-none tracking-tight">
                 Factura<span className="text-brand-primary">Pro</span>
