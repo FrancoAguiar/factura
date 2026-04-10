@@ -9,7 +9,7 @@ import {
   Calendar,
   FileText,
   Image as ImageIcon,
-  PenNib
+  PenTool
 } from 'lucide-react';
 
 // Utility for formatting currency
